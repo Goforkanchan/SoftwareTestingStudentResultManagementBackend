@@ -1,0 +1,3 @@
+This is package contains all VO classes.
+
+Note : Motive of this file is to make the vo package register for git push.

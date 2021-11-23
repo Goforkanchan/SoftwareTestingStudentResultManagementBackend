@@ -109,5 +109,12 @@ public class UserDetails {
 		this.roleId = roleId;
 	}
 
+	@Override
+	public String toString() {
+		return "UserDetails [name=" + name + ", gender=" + gender + ", contactno=" + contactno + ", role=" + role
+				+ ", extId=" + extId + ", dob=" + dob + ", address=" + address + ", email=" + email + ", password="
+				+ password + ", roleId=" + roleId + "]";
+	}
+
     
 }

@@ -5,6 +5,9 @@ import com.management.student.studentresult.utils.QueryVOMapper;
 import com.management.student.studentresult.vo.MarksVO;
 import com.management.student.studentresult.vo.PagingMarksVO;
 import com.management.student.studentresult.vo.QueryVO;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +30,8 @@ public class MarksController {
     @Autowired
     private MarksService marksService;
 
+    private static final Logger logger = LogManager.getLogger(MarksController.class);
+    
     @GetMapping("/getMarks/pagination")
     public ResponseEntity<?> queryMarksPagination(@RequestParam Map<String, String> requestParameters){
         try {

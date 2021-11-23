@@ -49,4 +49,12 @@ public class PagingMarksVO {
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
+
+	@Override
+	public String toString() {
+		return "PagingMarksVO [currentPage=" + currentPage + ", totalPage=" + totalPage + ", pageSize=" + pageSize
+				+ ", marksVOList=" + marksVOList + "]";
+	}
+    
+    
 }

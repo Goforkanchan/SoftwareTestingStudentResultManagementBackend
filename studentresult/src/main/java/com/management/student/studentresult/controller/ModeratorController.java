@@ -4,6 +4,9 @@
 package com.management.student.studentresult.controller;
 
 import com.management.student.studentresult.service.MarksService;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +34,7 @@ public class ModeratorController {
 	@Autowired
 	private MarksService marksService;
 
+	private static final Logger logger = LogManager.getLogger(ModeratorController.class);
 	@RequestMapping(value = "/bulkUpload", method = RequestMethod.POST)
 	public ResponseEntity<?> marksBulkUpload(@RequestParam(name = "file", required = true) MultipartFile fileMarksUpl,
 			@RequestParam(name = "extId") String modExitId) {

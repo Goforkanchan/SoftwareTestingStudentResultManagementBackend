@@ -1,7 +1,5 @@
 package com.management.student.studentresult.selenium;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -15,31 +13,30 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.management.student.studentresult.vo.MarksVO;
 
-
 public class ModeratorAutomation {
 
 	public static void main(String[] args) {
 
-		//picked from session data, already exists
-		MarksVO marks1= new MarksVO("MT2020093","CS201","Software Testing",2021,2,100,50.5,"B");
-		//used the id used during login operation
-		MarksVO marks2= new MarksVO("MOD2020093","CS201","Software Testing",2021,2,100,50.5,"B");
-		//obtained marks>total marks 
-		MarksVO marks3= new MarksVO("MT2020093","CS201","Software Testing",2021,2,100,500.0,"B");
-		//changed id number; not existing in the database 
-		MarksVO marks4= new MarksVO("MT2020010","CS201","Software Testing",2021,2,100,50.0,"B");
-		//changed subject id; not existing in the database 
-		MarksVO marks5= new MarksVO("MT2020010","ST112","Software Testing",2021,2,100,50.0,"B");
-		
-		final String MOD_ID="MOD2020093";
-		final String MOD_PASS="sujit123";
+		// picked from session data, already exists
+		MarksVO marks1 = new MarksVO("MT2020093", "CS201", "Software Testing", 2021, 2, 100, 50.5, "B");
+		// used the id used during login operation
+		MarksVO marks2 = new MarksVO("MOD2020093", "CS201", "Software Testing", 2021, 2, 100, 50.5, "B");
+		// obtained marks>total marks
+		MarksVO marks3 = new MarksVO("MT2020093", "CS201", "Software Testing", 2021, 2, 100, 500.0, "B");
+		// changed id number; not existing in the database
+		MarksVO marks4 = new MarksVO("MT2020010", "CS201", "Software Testing", 2021, 2, 100, 50.0, "B");
+		// changed subject id; not existing in the database
+		MarksVO marks5 = new MarksVO("MT2020010", "ST112", "Software Testing", 2021, 2, 100, 50.0, "B");
+
+		final String MOD_ID = "MOD2020093";
+		final String MOD_PASS = "sujit123";
 		List<MarksVO> l = new ArrayList<MarksVO>();
 
 		l.add(marks1);
-//		l.add(marks2);
-//		l.add(marks3);
-//		l.add(marks4);
-//		l.add(marks5);
+		l.add(marks2);
+		l.add(marks3);
+		l.add(marks4);
+		l.add(marks5);
 		WebDriver driver = null;
 
 		for (int i = 0; i < l.size(); i++) {
@@ -72,14 +69,15 @@ public class ModeratorAutomation {
 				Select term = new Select(driver.findElement(By.id("term")));
 				term.selectByVisibleText(String.valueOf(l.get(i).getTerm()));
 				Select subjCode = new Select(driver.findElement(By.id("subjCode")));
-				subjCode.selectByVisibleText(String.valueOf(l.get(i).getSubjectCode()+","+l.get(i).getSubjectName()));
+				subjCode.selectByVisibleText(
+						String.valueOf(l.get(i).getSubjectCode() + "," + l.get(i).getSubjectName()));
 				Select year = new Select(driver.findElement(By.id("year")));
 				year.selectByVisibleText(String.valueOf(l.get(i).getYear()));
 				driver.findElement(By.id("marksObtained")).sendKeys(String.valueOf(l.get(i).getMarksObtained()));
 				driver.findElement(By.id("totMarks")).sendKeys(String.valueOf(l.get(i).getTotalMarks()));
 				driver.findElement(By.id("grade")).sendKeys(l.get(i).getGrade());
-				WebElement uploadbtn = driver.findElement(
-						By.xpath("/html/body/app-root/div/div/div[2]/div/div/app-upload/div[1]/div/form/div[5]/button"));
+				WebElement uploadbtn = driver.findElement(By
+						.xpath("/html/body/app-root/div/div/div[2]/div/div/app-upload/div[1]/div/form/div[5]/button"));
 				js.executeScript("arguments[0].click();", uploadbtn);
 			} catch (Exception ex) {
 				ex.printStackTrace();

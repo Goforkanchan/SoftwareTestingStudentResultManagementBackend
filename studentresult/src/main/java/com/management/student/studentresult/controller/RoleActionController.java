@@ -4,6 +4,9 @@ import com.management.student.studentresult.dao.Action;
 import com.management.student.studentresult.dao.Role;
 import com.management.student.studentresult.service.ActionService;
 import com.management.student.studentresult.service.RoleService;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +29,7 @@ public class RoleActionController {
     @Autowired
     private ActionService actionService;
 
+    private static final Logger logger = LogManager.getLogger(RoleActionController.class);
     @PostMapping("/addRole")
     public Role addRole(@RequestBody Role role){
 

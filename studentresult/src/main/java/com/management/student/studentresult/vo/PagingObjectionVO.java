@@ -49,4 +49,14 @@ public class PagingObjectionVO {
     public void setObjectionVOList(List<ObjectionVO> objectionVOList) {
         this.objectionVOList = objectionVOList;
     }
+
+	@Override
+	public String toString() {
+		return "PagingObjectionVO [currentPage=" + currentPage + ", totalPage=" + totalPage + ", pageSize=" + pageSize
+				+ ", objectionVOList=" + objectionVOList + "]";
+	}
+
+	
+    
+    
 }

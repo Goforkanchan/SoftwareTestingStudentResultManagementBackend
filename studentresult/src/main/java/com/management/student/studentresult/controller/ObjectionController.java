@@ -7,6 +7,9 @@ import com.management.student.studentresult.service.ObjectionService;
 import com.management.student.studentresult.vo.MarksVO;
 import com.management.student.studentresult.vo.ObjectionVO;
 import com.management.student.studentresult.vo.PagingObjectionVO;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +36,7 @@ public class ObjectionController {
     @Autowired
     private ObjectionService objectionService;
 
+    private static final Logger logger = LogManager.getLogger(ObjectionController.class);
     @RequestMapping(value = "/raiseObjection", method = RequestMethod.POST)
     public ResponseEntity<?> studentRaiseObjection(@RequestBody List<MarksVO> marksVO) {
         List<Objection> objection;

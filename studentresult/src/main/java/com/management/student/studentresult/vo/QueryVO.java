@@ -57,4 +57,12 @@ public class QueryVO {
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
     }
+
+	@Override
+	public String toString() {
+		return "QueryVO [rollNumber=" + rollNumber + ", subjectCode=" + subjectCode + ", subjectName=" + subjectName
+				+ ", term=" + term + ", year=" + year + "]";
+	}
+    
+    
 }

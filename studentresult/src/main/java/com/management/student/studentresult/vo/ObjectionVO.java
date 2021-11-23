@@ -33,6 +33,13 @@ public class ObjectionVO extends MarksVO {
     public void setComments(String comments) {
         this.comments = comments;
     }
+
+	@Override
+	public String toString() {
+		return "ObjectionVO [operation=" + operation + ", comments=" + comments + "]";
+	}
+    
+    
 }
 
 

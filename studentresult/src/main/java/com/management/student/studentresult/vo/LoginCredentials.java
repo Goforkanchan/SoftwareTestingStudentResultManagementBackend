@@ -10,6 +10,7 @@ public class LoginCredentials {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
 	public String getPassword() {
 		return password;
 	}
@@ -21,5 +22,10 @@ public class LoginCredentials {
 		this.username = username;
 		this.password = password;
 	}
+	@Override
+	public String toString() {
+		return "LoginCredentials [username=" + username + ", password=" + password + "]";
+	}
+	
 	
 }

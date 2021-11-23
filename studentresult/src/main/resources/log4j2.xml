@@ -5,7 +5,7 @@
 			<PatternLayout
 				pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
 		</Console>
-		<File name="LogToFile" fileName="Logs/StudentResultDb.log"
+		<File name="LogToFile" fileName="Logs/RegistrationUserData.log"
 			immediateFlush="true" append="true">
 			<PatternLayout>
 				<Pattern>%d %p %c{1.} [%t] %m%n</Pattern>

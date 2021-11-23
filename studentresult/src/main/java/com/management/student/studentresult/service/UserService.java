@@ -1,5 +1,6 @@
 package com.management.student.studentresult.service;
 
+import com.management.student.studentresult.controller.UserController;
 import com.management.student.studentresult.dao.Auth;
 import com.management.student.studentresult.dao.Role;
 import com.management.student.studentresult.dao.User;
@@ -8,6 +9,9 @@ import com.management.student.studentresult.repository.UserRepository;
 import com.management.student.studentresult.utils.UserDetailsSecurity;
 import com.management.student.studentresult.vo.ResponseMessage;
 import com.management.student.studentresult.vo.UserDetails;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,76 +28,79 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional
-public class UserService implements UserDetailsService{
-    @Autowired
-    private UserRepository repository;
-    
-    @Autowired
-    private AuthService authService;
-    
-    @Autowired
-    private RoleService roleService;
+public class UserService implements UserDetailsService {
+	@Autowired
+	private UserRepository repository;
 
-    public User saveUser(User user){
-        return repository.save(user);
-    }
+	@Autowired
+	private AuthService authService;
 
-    public List<User> getUsers(){
-        return repository.findAll();
-    }
+	@Autowired
+	private RoleService roleService;
 
-    public User getUserById(int id){
-        return repository.findById(id).orElse(null);
-    }
+	private static final Logger logger = LogManager.getLogger(UserService.class);
 
-    public User getUserByExtId(String extId){
-        return repository.findByExtId(extId);
-    }
+	public User saveUser(User user) {
+		return repository.save(user);
+	}
 
-    public UserDetails getUserDetailsByExtId(String extId) throws ParseException {
+	public List<User> getUsers() {
+		return repository.findAll();
+	}
 
-        User user = getUserByExtId(extId);
-        UserDetails userDetails = new UserDetails();
-        userDetails.setName(user.getName());
-        userDetails.setExtId(user.getExtId());
-        userDetails.setAddress(user.getAddress());
-        userDetails.setContactno(user.getPhone());
-        userDetails.setEmail(user.getAuth().getEmail());
+	public User getUserById(int id) {
+		return repository.findById(id).orElse(null);
+	}
 
-        return userDetails;
-    }
-    
-    public ResponseEntity<ResponseMessage> registrationService(UserDetails userDetails){
-    	
-    	try {
-			if(authService.getAuthByEmail(userDetails.getEmail()).isPresent())
+	public User getUserByExtId(String extId) {
+		return repository.findByExtId(extId);
+	}
+
+	public UserDetails getUserDetailsByExtId(String extId) throws ParseException {
+
+		User user = getUserByExtId(extId);
+		UserDetails userDetails = new UserDetails();
+		userDetails.setName(user.getName());
+		userDetails.setExtId(user.getExtId());
+		userDetails.setAddress(user.getAddress());
+		userDetails.setContactno(user.getPhone());
+		userDetails.setEmail(user.getAuth().getEmail());
+
+		return userDetails;
+	}
+
+	public ResponseEntity<ResponseMessage> registrationService(UserDetails userDetails) {
+
+		try {
+			if (authService.getAuthByEmail(userDetails.getEmail()).isPresent())
 				throw new Exception("Email already exists!");
-			if(repository.existsByExtId(userDetails.getExtId()))
+			if (repository.existsByExtId(userDetails.getExtId()))
 				throw new Exception("We have another user with same Id!");
-			if(repository.existsByPhone(userDetails.getContactno()))
+			if (repository.existsByPhone(userDetails.getContactno()))
 				throw new Exception("This contact number is already taken!");
 			Auth auth = new Auth(userDetails.getEmail(), userDetails.getPassword());
-			auth=authService.saveAuth(auth);
+			auth = authService.saveAuth(auth);
 			Role role = roleService.getRoleByName(userDetails.getRole());
-			User user = new User(auth, role, userDetails.getExtId(), userDetails.getName(), userDetails.getAddress(), userDetails.getContactno(), userDetails.getDob());
+			User user = new User(auth, role, userDetails.getExtId(), userDetails.getName(), userDetails.getAddress(),
+					userDetails.getContactno(), userDetails.getDob());
 			saveUser(user);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			logger.error("Exception Occured during registration: {} ",e.getMessage());
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(e.getMessage()));
 		}
-    	String message="Registration Successful!";
-    	return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+		String message = "Registration Successful!";
+		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 
-    }
+	}
 
 	@Override
-	public UserDetailsSecurity loadUserByUsername(String username)
-			throws UsernameNotFoundException {
+	public UserDetailsSecurity loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-			User user=repository.findByExtId(username);
-			if(user.equals(null))
-				throw new UsernameNotFoundException("The username"+username+"does not exist!");
-			return new UserDetailsSecurity(user);
+		User user = repository.findByExtId(username);
+		if (user.equals(null))
+			throw new UsernameNotFoundException("The username" + username + "does not exist!");
+		return new UserDetailsSecurity(user);
 	}
 
 }
